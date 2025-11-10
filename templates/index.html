@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Solar N-Body - Simulación Matemática Realista</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌌</text></svg>">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading">
+        <h1>🌌 SISTEMA SOLAR N-BODY</h1>
+        <p>Cargando simulación física...</p>
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Canvas 3D -->
+    <div id="canvas-container"></div>
+    
+    <!-- Panel de Controles MEJORADO -->
+    <div id="controls">
+        <h2>⚛️ SIMULACIÓN N-BODY</h2>
+        
+        <div class="status-bar">
+            <span>Estado: </span>
+            <span id="connectionStatus" style="color: #ff0;">Conectando...</span>
+        </div>
+        
+        <div class="control-group">
+            <h3>Control de Simulación</h3>
+            <button id="startBtn" class="btn">▶️ Iniciar</button>
+            <button id="stopBtn" class="btn" disabled>⏸️ Pausar</button>
+            <button id="resetBtn" class="btn">🔄 Reiniciar</button>
+        </div>
+        
+        <!-- MEJORADO: Controles de velocidad preestablecidos -->
+        <div class="control-group">
+            <h3>Velocidad de Tiempo</h3>
+            <div class="speed-presets">
+                <button class="speed-btn" data-speed="0.1">0.1x</button>
+                <button class="speed-btn" data-speed="0.5">0.5x</button>
+                <button class="speed-btn active" data-speed="1">1x</button>
+                <button class="speed-btn" data-speed="5">5x</button>
+                <button class="speed-btn" data-speed="10">10x</button>
+                <button class="speed-btn" data-speed="50">50x</button>
+                <button class="speed-btn" data-speed="100">100x</button>
+            </div>
+            <label style="margin-top: 10px;">
+                <span id="speedValue">1.0</span>x más rápido
+                <input type="range" id="timeScale" min="0.1" max="100" value="1" step="0.1">
+            </label>
+            <small>Usa los botones o el slider para ajustar</small>
+        </div>
+        
+        <div class="control-group">
+            <h3>Visualización</h3>
+            <label>
+                <input type="checkbox" id="showTrails" checked>
+                Mostrar trayectorias orbitales
+            </label>
+            <label>
+                <input type="checkbox" id="showLabels" checked>
+                Mostrar nombres de planetas
+            </label>
+        </div>
+        
+        <!-- NUEVO: Controles de cámara -->
+        <div class="control-group">
+            <h3>Cámara</h3>
+            <button id="resetCameraBtn" class="btn-secondary">📷 Resetear Vista</button>
+            <small>También: Doble click en el canvas</small>
+        </div>
+        
+        <div id="stats">
+            <h3>📊 Estadísticas</h3>
+            <p><strong>Tiempo Simulado:</strong><br><span id="simTime">0 días</span></p>
+            <p><strong>Energía Total:</strong><br><span id="totalEnergy">0 J</span></p>
+            <p><strong>Energía Cinética:</strong><br><span id="kineticEnergy">0 J</span></p>
+            <p><strong>Energía Potencial:</strong><br><span id="potentialEnergy">0 J</span></p>
+            <p><strong>FPS:</strong> <span id="fps">0</span></p>
+        </div>
+    </div>
+
+    <!-- Información del Proyecto -->
+    <div id="info-overlay">
+        <h3>🔬 Física Implementada</h3>
+        <p><strong>Gravitación:</strong> F = GMm/r²</p>
+        <p><strong>Integrador:</strong> Velocity Verlet (2º orden)</p>
+        <p><strong>Datos:</strong> Masas y velocidades reales</p>
+        <p><strong>Estelas:</strong> Desvanecimiento gradual</p>
+        <p><strong>Cámara:</strong> Click en planeta o doble click para reset</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/renderer.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
